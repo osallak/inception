@@ -1,10 +1,5 @@
 FROM debian:stable
 
-COPY conf/wp-init.sh /tmp/wp-init.sh
-
-RUN chmod +x /tmp/wp-init.sh && mkdir -p /var/www/html &&\
-    chown -R www-data:www-data /var/www/html
-
 RUN apt-get update && apt-get install -y \
     php7.3 \
     php-mysql \
@@ -12,11 +7,15 @@ RUN apt-get update && apt-get install -y \
     php-cli \
     curl
 
+COPY conf/wp-init.sh /tmp/wp-init.sh
 
 RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output wp &&\
     chmod +x wp &&\
     mv wp /usr/local/bin/wp
 
-USER www-data
+RUN chmod +x /tmp/wp-init.sh && mkdir -p /var/www/html &&\
+    chown -R www-data:www-data /var/www/html
 
-CMD ["wp", "cli", "version"]
+EXPOSE 9000
+
+CMD ["bash", "/tmp/wp-init.sh"]
