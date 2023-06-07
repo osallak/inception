@@ -11,7 +11,7 @@ RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
 EXPOSE 3306
 
-COPY conf/create_db.sh  /tmp/create_db.sh
+COPY ./requirements/mariadb/conf/create_db.sh  /tmp/create_db.sh
 
 RUN chmod +x /tmp/create_db.sh
 

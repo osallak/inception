@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     php-cli \
     curl
 
-COPY conf/wp-init.sh /tmp/wp-init.sh
+COPY ./requirements/wordpress/conf/wp-init.sh /tmp/wp-init.sh
 
 RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output wp &&\
     chmod +x wp &&\
