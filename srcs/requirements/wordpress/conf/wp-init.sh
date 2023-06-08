@@ -1,4 +1,5 @@
 sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/g' /etc/php/7.4/fpm/pool.d/www.conf
+sleep 10
 wp core download --path=/var/www/ --allow-root
 
 cat /var/www/wp-config-sample.php >  /var/www/wp-config.php
