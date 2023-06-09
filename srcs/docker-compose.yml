@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  webserve:
+  nginx:
     container_name: nginx
     build:
       context: .
@@ -14,13 +14,19 @@ services:
       - wp-volume:/var/www
     depends_on:
       - wordpress
-    restart: always
+    restart: on-failure 
+    init: true
 
   wordpress:
     container_name: wordpress
     build:
       context: .
       dockerfile: ./requirements/wordpress/Dockerfile
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin", "-h", "mariadb", "-u", "root", "-p $ROOT_PASS", "ping", "-s"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     volumes:
       - wp-volume:/var/www
     networks:
@@ -28,7 +34,8 @@ services:
     env_file: ./.env
     depends_on:
       - mariadb
-    restart: always
+    restart: on-failure 
+    init: true
 
   mariadb:
     container_name: mariadb
@@ -40,7 +47,8 @@ services:
     networks:
       - wordpress
     env_file: ./.env
-    restart: always
+    restart: on-failure 
+    init: true
 
 volumes:
   wp-volume:

@@ -1,10 +1,9 @@
-FROM debian:stable
+FROM debian:bullseye
 
-RUN apt-get update && apt-get install -y \
-    php7.3 \
-    php-mysql \
-    php-fpm \
-    php-cli \
+RUN apt update && apt install -y \
+    php7.4 \
+    php7.4-mysql \
+    php7.4-fpm \
     curl
 
 COPY ./requirements/wordpress/conf/wp-init.sh /tmp/wp-init.sh

@@ -13,4 +13,5 @@ FLUSH PRIVILEGES;
 EOF
 mysql -u root < /tmp/init_db.sql
 kill `cat /var/run/mysqld/mysqld.pid`
-mysqld --skip-log-error 
+# service mysql stop
+mysqld --skip-log-error
